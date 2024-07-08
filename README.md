@@ -19,10 +19,10 @@ This project demonstrates how caching with Redis can significantly reduce the re
 4. axios
 
 
-##API End-Points
+## API End-Points
 - https://github.com/nnishantparashar/redis-cache-demo/blob/main/rest.http
 
 
-##Acknowledgments
+## Acknowledgments
 - Redis - for providing a powerful caching solution.
 - Express - for the web framework used.
