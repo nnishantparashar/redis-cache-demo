@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require('express');
 const axios = require('axios');
-const { createClient } = require('redis');
+const { createClient} = require('ioredis');
 const responseTime = require('response-time');
 const { promisify} = require('util');
 
@@ -9,29 +9,33 @@ const { promisify} = require('util');
 const app = express();
 app.use(responseTime());
 
+
+
 const client = createClient({
-    password: process.env.REDIS_PASS,
+   // password: process.env.REDIS_PASS,
     socket: {
-        host: process.env.REDIS_URL,
-        port: process.env.REDIS_PORT
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PASS
     }
 });
 
-client.on('ready', () => {
+// const client = createClient({
+//     password: process.env.REDIS_PASS,
+//     socket: {
+//         host: process.env.REDIS_URL,
+//         port: process.env.REDIS_PORT
+//     }
+// });
+
+client.on('connect', () => {
     console.log('redis is connected');
   });
   
   client.on('error', (err) => {
     console.log('redis is disconnected: ', err);
   });
+
   
-//   (async () => {
-//     try {
-//       await client.connect();
-//     } catch (error) {
-//       console.error('error while connecting redis', error);
-//     }
-//   })();
 
 const GET_ASYNC = promisify(client.get).bind(client);
 const SET_ASYNC = promisify(client.set).bind(client);
